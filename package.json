@@ -1,0 +1,13 @@
+{
+  "name": "noorani-qaida",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Noorani Qaida (Indian edition) web app with English & Hinglish reading help",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check.mjs",
+    "start": "node scripts/build.mjs && npx --yes serve@14.2.3 public -l 3000"
+  },
+  "engines": { "node": ">=18" }
+}
