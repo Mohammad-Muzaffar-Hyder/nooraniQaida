@@ -14,10 +14,11 @@ for(let n=1;n<=27;n++){
     mine.forEach((p,j)=>PAGES.push({type:"book",p,lessons:who,j,total:mine.length,key:"b"+p}));
     who.forEach(w=>PAGES.push({type:"quiz",n:w,key:"quiz"+w}));}
 }
+for(let k=0;k<8;k++)PAGES.push({type:"kalima",k,key:"kalima"+(k+1)});   // six Kalimas + Iman-e-Mujmal + Iman-e-Mufassal (extras.js)
 PAGES.push({type:"end"});
 PAGES.forEach((P,i)=>{if(!P.key)P.key=P.type+(P.n||"")+"_"+i});
 function lessonOfPage(P){return P.type==="lesson"||P.type==="divider"||P.type==="quiz"||P.type==="makharij"?P.n:P.type==="book"?P.lessons[P.lessons.length-1]:0}
-function lessonOf(i){const L=SEQ||PAGES;for(let k=i;k>=0;k--){const n=lessonOfPage(L[k]);if(n)return n;if(L[k].type==="contents")return 0}return 0}
+function lessonOf(i){const L=SEQ||PAGES;for(let k=i;k>=0;k--){const n=lessonOfPage(L[k]);if(n)return n;if(L[k].type==="contents"||L[k].type==="kalima"||L[k].type==="end")return 0}return 0}
 let SEQ=null;
 
 /* ---------- cover: emerald hardcover, gold geometric frame, the title typeset in gold Nastaliq ---------- */

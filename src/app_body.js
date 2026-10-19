@@ -77,6 +77,7 @@ function render(i){
   if(P.type==="book")return bookHTML(P,num);
   if(P.type==="quiz")return quizHTML(P,num).replace('class="pg quizpg"',`class="pg quizpg" data-n="${P.n}"`);
   if(P.type==="makharij")return makharijHTML(num);
+  if(P.type==="kalima")return kalimaHTML(P,num);
   if(P.type==="howto")return `<div class="pg"><div class="pg-body"><h3 class="pt">How to use this Qaida</h3><div class="howto">
     <div><i>1</i><span>The book opens from the right, like the Quran. Swipe right, press <b>Next ←</b>, tap the left edge, or use the ← arrow key to turn the page.</span></div>
     <div><i>2</i><span>Every takhti starts with an <b>explanation page</b>: the rule, then examples with English and Hinglish under each one.</span></div>
@@ -99,7 +100,7 @@ function render(i){
     <div><b>āā</b> extra-long Madd, 4–6 counts · Hinglish: <b>aaaa</b></div>
     <div><b>-</b> joins words that are read together</div></div>
     <p class="hint" style="margin-top:14px">Hinglish (green) is the same reading in everyday Indian spelling, with no special marks. Use the English line to catch the heavy and throat letters, and learn the true sounds from a Qari or Ustad.</p></div>${foot("Reading key",num)}</div>`;
-  if(P.type==="contents")return `<div class="pg"><div class="pg-body"><h3 class="pt">Fehrist · Contents</h3><ul class="toc">${LESSONS.map((L,k)=>`<li><button type="button" data-gokey="lesson${k+1}"><span class="n">${k+1}</span><span class="t">${L.en}</span><span class="u">${L.ur}</span></button></li>`).join("")}</ul></div>${foot("Contents",num)}</div>`;
+  if(P.type==="contents")return `<div class="pg"><div class="pg-body"><h3 class="pt">Fehrist · Contents</h3><ul class="toc">${LESSONS.map((L,k)=>`<li><button type="button" data-gokey="lesson${k+1}"><span class="n">${k+1}</span><span class="t">${L.en}</span><span class="u">${L.ur}</span></button></li>`).join("")}<li><button type="button" data-gokey="kalima1"><span class="n">★</span><span class="t">Six Kalimas &amp; Iman</span><span class="u">چھ کلمے، ایمانِ مجمل، ایمانِ مفصّل</span></button></li></ul></div>${foot("Contents",num)}</div>`;
   if(P.type==="lesson"){const L=LESSONS[P.n-1],bp=BOOK_PAGES[P.n];
     return `<div class="pg"><div class="pg-body">
       <div class="lh"><div class="eyebrow">Takhti ${P.n} · ${L.tr}</div><div class="ur">تختی نمبر ${UD(P.n)} · ${L.ur}</div><h2>${L.en}</h2><div class="sub">${L.sub}</div></div>
@@ -152,8 +153,8 @@ function show(i,force){
 }
 function updateChrome(){
   const n=lessonOf(spread?Math.min(idx+1,SEQ.length-1):idx),P=SEQ[idx];
-  document.getElementById("where").textContent=n?`Takhti ${n} · ${LESSONS[n-1].en}`:(P.type==="contents"?"Contents":P.type==="key"?"Reading key":P.type==="howto"?"How to use":"Cover");
-  document.getElementById("pgSub").textContent=n?`Takhti ${n} of 27`:"Introduction";
+  document.getElementById("where").textContent=n?`Takhti ${n} · ${LESSONS[n-1].en}`:(P.type==="contents"?"Contents":P.type==="key"?"Reading key":P.type==="howto"?"How to use":P.type==="kalima"?"Six Kalimas & Iman":P.type==="end"?"Khatam":"Cover");
+  document.getElementById("pgSub").textContent=n?`Takhti ${n} of 27`:P.type==="kalima"||P.type==="end"?"After the Qaida":"Introduction";
   stage.classList.toggle("on-cover",idx===0);
   const step=spread?2:1, last=SEQ.length-step;
   document.getElementById("pgLabel").textContent=spread?`Pages ${idx+1}–${Math.min(idx+2,SEQ.length)} of ${SEQ.length}`:`Page ${idx+1} of ${SEQ.length}`;
@@ -184,7 +185,8 @@ function jumpKey(k){const i=SEQ.findIndex(p=>p.key===k);if(i>=0)jump(i)}
 document.getElementById("nextBtn").onclick=()=>turn(1);
 document.getElementById("prevBtn").onclick=()=>turn(-1);
 const drawer=document.getElementById("drawer"),scrim=document.getElementById("scrim"),tocBtn=document.getElementById("tocBtn");
-document.getElementById("drawerList").innerHTML=LESSONS.map((L,k)=>`<li><button type="button" data-gokey="lesson${k+1}" data-n="${k+1}"><span class="n">${k+1}</span><span class="t">${L.en}<small>${L.tr}</small></span><span class="ck" aria-label="done">✓</span><span class="u">${L.ur}</span></button></li>`).join("");
+document.getElementById("drawerList").innerHTML=LESSONS.map((L,k)=>`<li><button type="button" data-gokey="lesson${k+1}" data-n="${k+1}"><span class="n">${k+1}</span><span class="t">${L.en}<small>${L.tr}</small></span><span class="ck" aria-label="done">✓</span><span class="u">${L.ur}</span></button></li>`).join("")+
+  `<li><button type="button" data-gokey="kalima1"><span class="n">★</span><span class="t">Six Kalimas &amp; Iman<small>Mujmal · Mufassal</small></span><span class="u">چھ کلمے، ایمانِ مجمل، ایمانِ مفصّل</span></button></li>`;
 PAGES.forEach(P=>{if(P.type==="lesson")P.key="lesson"+P.n});
 function openDrawer(on){if(on)refreshProgress();drawer.hidden=!on;scrim.hidden=!on;tocBtn.setAttribute("aria-expanded",String(on));
   if(on){const n=lessonOf(spread?idx+1:idx);drawer.querySelectorAll("[data-n]").forEach(b=>b.classList.toggle("cur",+b.dataset.n===n));const c=drawer.querySelector(".cur");if(c)c.scrollIntoView({block:"center"})}}

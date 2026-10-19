@@ -129,3 +129,48 @@ function makharijHTML(num){
     <p class="hint" style="margin-top:12px">The diagram is a simple guide. Learn the exact makhraj of each letter by listening to a Qari or Ustad.</p>
   </div>${foot("Takhti 1 · Makharij",num)}</div>`;
 }
+
+/* ---------- Six Kalimas + Iman-e-Mujmal + Iman-e-Mufassal (after Takhti 27; not part of the PDF) ----------
+   [Urdu name, English name, Arabic, Urdu tarjuma, Hinglish meaning] */
+const KALIMAS=[
+  ["پہلا کلمہ طیّب","First Kalima · Tayyib (Purity)",
+   "لَآ اِلٰهَ اِلَّا اللّٰهُ مُحَمَّدٌ رَّسُوْلُ اللّٰهِ",
+   "اللہ کے سوا کوئی معبود نہیں، محمد (صلی اللہ علیہ وسلم) اللہ کے رسول ہیں۔",
+   "Allah ke siwa koi ma'bood nahin, Muhammad (sallallahu alaihi wasallam) Allah ke Rasool hain."],
+  ["دوسرا کلمہ شہادت","Second Kalima · Shahadat (Testimony)",
+   "اَشْهَدُ اَنْ لَّآ اِلٰهَ اِلَّا اللّٰهُ وَحْدَهٗ لَا شَرِیْكَ لَهٗ وَاَشْهَدُ اَنَّ مُحَمَّدًا عَبْدُهٗ وَرَسُوْلُهٗ",
+   "میں گواہی دیتا ہوں کہ اللہ کے سوا کوئی معبود نہیں، وہ اکیلا ہے، اس کا کوئی شریک نہیں، اور میں گواہی دیتا ہوں کہ محمد (صلی اللہ علیہ وسلم) اس کے بندے اور رسول ہیں۔",
+   "Main gawahi deta hoon ke Allah ke siwa koi ma'bood nahin, woh akela hai, uska koi shareek nahin, aur main gawahi deta hoon ke Muhammad (sallallahu alaihi wasallam) uske bande aur Rasool hain."],
+  ["تیسرا کلمہ تمجید","Third Kalima · Tamjeed (Glorification)",
+   "سُبْحَانَ اللّٰهِ وَالْحَمْدُ لِلّٰهِ وَلَآ اِلٰهَ اِلَّا اللّٰهُ وَاللّٰهُ اَكْبَرُ وَلَا حَوْلَ وَلَا قُوَّةَ اِلَّا بِاللّٰهِ الْعَلِیِّ الْعَظِیْمِ",
+   "اللہ پاک ہے، اور سب تعریفیں اللہ ہی کے لیے ہیں، اور اللہ کے سوا کوئی معبود نہیں، اور اللہ سب سے بڑا ہے۔ اور گناہوں سے بچنے کی طاقت اور نیکی کرنے کی قوت نہیں مگر اللہ کی مدد سے، جو بلند مرتبہ اور عظمت والا ہے۔",
+   "Allah paak hai, aur saari taareef Allah hi ke liye hai, aur Allah ke siwa koi ma'bood nahin, aur Allah sab se bada hai. Gunaahon se bachne ki taaqat aur neki karne ki quwwat sirf Allah ki madad se hai, jo buland martaba aur azmat wala hai."],
+  ["چوتھا کلمہ توحید","Fourth Kalima · Tauheed (Oneness of Allah)",
+   "لَآ اِلٰهَ اِلَّا اللّٰهُ وَحْدَهٗ لَا شَرِیْكَ لَهٗ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ یُحْیِیْ وَیُمِیْتُ وَهُوَ حَیٌّ لَّا یَمُوْتُ اَبَدًا اَبَدًا ذُو الْجَلَالِ وَالْاِكْرَامِ بِیَدِهِ الْخَیْرُ وَهُوَ عَلٰی كُلِّ شَیْءٍ قَدِیْرٌ",
+   "اللہ کے سوا کوئی معبود نہیں، وہ اکیلا ہے، اس کا کوئی شریک نہیں، اسی کی بادشاہی ہے اور اسی کے لیے سب تعریف ہے، وہی زندہ کرتا ہے اور وہی مارتا ہے، اور وہ زندہ ہے، اسے کبھی موت نہیں آئے گی، وہ بڑے جلال اور بزرگی والا ہے، اسی کے ہاتھ میں ہر بھلائی ہے، اور وہ ہر چیز پر قادر ہے۔",
+   "Allah ke siwa koi ma'bood nahin, woh akela hai, uska koi shareek nahin. Usi ki baadshahi hai aur usi ke liye saari taareef hai. Wahi zinda karta hai aur wahi maut deta hai, aur woh zinda hai, use kabhi maut nahin aayegi. Woh bade jalaal aur buzurgi wala hai, usi ke haath mein har bhalaai hai, aur woh har cheez par qaadir hai."],
+  ["پانچواں کلمہ استغفار","Fifth Kalima · Istighfar (Seeking forgiveness)",
+   "اَسْتَغْفِرُ اللّٰهَ رَبِّیْ مِنْ كُلِّ ذَنْۢبٍ اَذْنَبْتُهٗ عَمَدًا اَوْ خَطَأً سِرًّا اَوْ عَلَانِیَةً وَّاَتُوْبُ اِلَیْهِ مِنَ الذَّنْۢبِ الَّذِیْٓ اَعْلَمُ وَمِنَ الذَّنْۢبِ الَّذِیْ لَآ اَعْلَمُ اِنَّكَ اَنْتَ عَلَّامُ الْغُیُوْبِ وَسَتَّارُ الْعُیُوْبِ وَغَفَّارُ الذُّنُوْبِ وَلَا حَوْلَ وَلَا قُوَّةَ اِلَّا بِاللّٰهِ الْعَلِیِّ الْعَظِیْمِ",
+   "میں اللہ سے معافی مانگتا ہوں جو میرا رب ہے، ہر اس گناہ سے جو میں نے جان بوجھ کر کیا یا بھول کر، چھپ کر کیا یا کھلم کھلا، اور میں اس کی طرف توبہ کرتا ہوں اس گناہ سے جسے میں جانتا ہوں اور اس گناہ سے جسے میں نہیں جانتا۔ (اے اللہ!) بیشک تو غیبوں کا جاننے والا، عیبوں کو چھپانے والا اور گناہوں کو بخشنے والا ہے۔ اور گناہوں سے بچنے کی طاقت اور نیکی کرنے کی قوت نہیں مگر اللہ کی مدد سے، جو بلند مرتبہ اور عظمت والا ہے۔",
+   "Main Allah se maafi maangta hoon jo mera Rab hai, har us gunaah se jo maine jaan boojh kar kiya ya bhool kar, chhup kar kiya ya khullam khulla. Aur main usi ki taraf tauba karta hoon us gunaah se jo main jaanta hoon aur us gunaah se jo main nahin jaanta. (Ae Allah!) Beshak Tu chhupi baaton ka jaanne wala, aibon ko chhupaane wala aur gunaahon ko bakhshne wala hai. Gunaahon se bachne ki taaqat aur neki karne ki quwwat sirf Allah ki madad se hai, jo buland martaba aur azmat wala hai."],
+  ["چھٹا کلمہ ردِّ کفر","Sixth Kalima · Radd-e-Kufr (Rejecting disbelief)",
+   "اَللّٰهُمَّ اِنِّیْٓ اَعُوْذُ بِكَ مِنْ اَنْ اُشْرِكَ بِكَ شَیْئًا وَّاَنَا اَعْلَمُ بِهٖ وَاَسْتَغْفِرُكَ لِمَا لَآ اَعْلَمُ بِهٖ تُبْتُ عَنْهُ وَتَبَرَّاْتُ مِنَ الْكُفْرِ وَالشِّرْكِ وَالْكِذْبِ وَالْغِیْبَةِ وَالْبِدْعَةِ وَالنَّمِیْمَةِ وَالْفَوَاحِشِ وَالْبُهْتَانِ وَالْمَعَاصِیْ كُلِّهَا وَاَسْلَمْتُ وَاَقُوْلُ لَآ اِلٰهَ اِلَّا اللّٰهُ مُحَمَّدٌ رَّسُوْلُ اللّٰهِ",
+   "اے اللہ! میں تیری پناہ مانگتا ہوں اس بات سے کہ میں جان بوجھ کر کسی چیز کو تیرا شریک بناؤں، اور تجھ سے معافی مانگتا ہوں اس (شرک) سے جسے میں نہیں جانتا۔ میں نے اس سے توبہ کی، اور میں بیزار ہوا کفر سے، شرک سے، جھوٹ سے، غیبت سے، بدعت سے، چغلی سے، بے حیائی کے کاموں سے، بہتان سے اور ہر قسم کے گناہوں سے۔ اور میں اسلام لایا، اور میں کہتا ہوں: اللہ کے سوا کوئی معبود نہیں، محمد (صلی اللہ علیہ وسلم) اللہ کے رسول ہیں۔",
+   "Ae Allah! Main teri panaah maangta hoon is baat se ke main jaan boojh kar kisi cheez ko tera shareek banaaun, aur tujh se maafi maangta hoon us (shirk) se jo main nahin jaanta. Maine us se tauba ki, aur main bezaar hua kufr se, shirk se, jhooth se, gheebat se, bid'at se, chughli se, behayaai ke kaamon se, bohtaan se aur har qism ke gunaahon se. Aur main Islam laaya, aur main kehta hoon: Allah ke siwa koi ma'bood nahin, Muhammad (sallallahu alaihi wasallam) Allah ke Rasool hain."],
+  ["ایمانِ مجمل","Iman-e-Mujmal (Faith in brief)",
+   "اٰمَنْتُ بِاللّٰهِ كَمَا هُوَ بِاَسْمَآئِهٖ وَصِفَاتِهٖ وَقَبِلْتُ جَمِیْعَ اَحْكَامِهٖ اِقْرَارٌۢ بِاللِّسَانِ وَتَصْدِیْقٌۢ بِالْقَلْبِ",
+   "میں ایمان لایا اللہ پر جیسا کہ وہ اپنے ناموں اور اپنی صفتوں کے ساتھ ہے، اور میں نے اس کے تمام احکام قبول کیے، زبان سے اقرار کرتے ہوئے اور دل سے تصدیق کرتے ہوئے۔",
+   "Main imaan laaya Allah par jaisa woh apne naamon aur apni sifaton ke saath hai, aur maine uske saare ahkaam qubool kiye, zabaan se iqraar karte hue aur dil se tasdeeq karte hue."],
+  ["ایمانِ مفصّل","Iman-e-Mufassal (Faith in detail)",
+   "اٰمَنْتُ بِاللّٰهِ وَمَلٰٓئِكَتِهٖ وَكُتُبِهٖ وَرُسُلِهٖ وَالْیَوْمِ الْاٰخِرِ وَالْقَدْرِ خَیْرِهٖ وَشَرِّهٖ مِنَ اللّٰهِ تَعَالٰی وَالْبَعْثِ بَعْدَ الْمَوْتِ",
+   "میں ایمان لایا اللہ پر، اور اس کے فرشتوں پر، اور اس کی کتابوں پر، اور اس کے رسولوں پر، اور قیامت کے دن پر، اور اس پر کہ اچھی اور بری تقدیر اللہ تعالیٰ کی طرف سے ہے، اور موت کے بعد دوبارہ زندہ کیے جانے پر۔",
+   "Main imaan laaya Allah par, aur uske farishton par, aur uski kitaabon par, aur uske Rasoolon par, aur Qayamat ke din par, aur is par ke achhi aur buri taqdeer Allah Ta'ala ki taraf se hai, aur maut ke baad dobaara zinda kiye jaane par."]];
+function kalimaHTML(P,num){const [ur,en,ar,urm,hi]=KALIMAS[P.k];
+  return `<div class="pg"><div class="pg-body">
+    <div class="lh"><div class="eyebrow">Kalimas &amp; Iman · ${P.k+1} of ${KALIMAS.length}</div><div class="ur">${ur}</div><h2>${en}</h2></div>
+    <div class="kl-ar">${ar}</div>
+    <div class="kl-ur"><span class="kl-lbl">اردو ترجمہ</span>${urm}</div>
+    <p class="note hi"><strong>Matlab (Hinglish):</strong> ${hi}</p>
+    ${P.k===0?`<p class="hint">Learn these by heart with a Qari or Ustad, and read them with their meaning.</p>`:""}
+  </div>${foot("Kalimas &amp; Iman",num)}</div>`;
+}
